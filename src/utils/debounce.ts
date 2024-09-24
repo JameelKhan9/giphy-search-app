@@ -1,8 +1,8 @@
 // debounce.ts
-export function debounce(func: (...args: any[]) => void, delay: number) {
+export function debounce(func: (...args: unknown[]) => void, delay: number) {
   let timer: NodeJS.Timeout;
 
-  const debouncedFn = function (...args: any[]) {
+  const debouncedFn = function (...args: unknown[]) {
     clearTimeout(timer);
     timer = setTimeout(() => {
       func(...args);

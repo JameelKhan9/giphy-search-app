@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { GiphyFetch, GifsResult } from "@giphy/js-fetch-api";
+import { GiphyFetch, type GifsResult } from "@giphy/js-fetch-api";
 import { Grid } from "@giphy/react-components";
 import { debounce } from "~/utils/debounce";
 
@@ -14,7 +14,7 @@ export default function Home() {
   const giphyFetch = new GiphyFetch(process.env.NEXT_PUBLIC_GIPHY_API_KEY!);
 
   // TODO: Move from Giphy SDK to calling the API endpoints via NextAPI
-  const fetchGifs = async (offset: number = 0): Promise<GifsResult> => {
+  const fetchGifs = async (offset = 0): Promise<GifsResult> => {
     setIsSearching(true);
     try {
       return searchQuery
@@ -25,10 +25,9 @@ export default function Home() {
     }
   };
 
-  // Debounce search query input
   const debouncedFetchGifs = useCallback(
     debounce(() => fetchGifs(0), 500),
-    [searchQuery]
+    [searchQuery],
   );
 
   // Fetch GIFs when searchQuery changes
@@ -39,7 +38,6 @@ export default function Home() {
     };
   }, [searchQuery, debouncedFetchGifs]);
 
-  // Handle error callback from Grid component
   const handleGifsFetchError = (err: Error) => {
     console.error("Error fetching GIFs:", err);
     setError("Failed to fetch GIFs. Please try again later.");
